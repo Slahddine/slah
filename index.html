@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculateur de Notes</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>📚 Calculateur de Notes</h1>
+    <p class="subtitle">Gérez vos matières et calculez votre moyenne</p>
+
+    <div class="card">
+      <h2>Ajouter une matière</h2>
+      <div class="form-row">
+        <input type="text" id="subjectName" placeholder="Nom de la matière" maxlength="50" />
+        <input type="number" id="subjectGrade" placeholder="Note (0-20)" min="0" max="20" step="0.25" />
+        <input type="number" id="subjectCoeff" placeholder="Coefficient" min="1" max="10" step="1" value="1" />
+        <button onclick="addSubject()">Ajouter</button>
+      </div>
+      <p id="formError" class="error hidden"></p>
+    </div>
+
+    <div class="card" id="resultsCard" style="display:none">
+      <h2>Résultats</h2>
+      <table id="gradesTable">
+        <thead>
+          <tr>
+            <th>Matière</th>
+            <th>Note /20</th>
+            <th>Coefficient</th>
+            <th>Appréciation</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="gradesBody"></tbody>
+      </table>
+
+      <div class="summary">
+        <div class="summary-item">
+          <span class="label">Moyenne générale</span>
+          <span class="value" id="average">—</span>
+        </div>
+        <div class="summary-item">
+          <span class="label">Mention</span>
+          <span class="value" id="mention">—</span>
+        </div>
+        <div class="summary-item">
+          <span class="label">Résultat</span>
+          <span class="value" id="result">—</span>
+        </div>
+      </div>
+
+      <button class="danger" onclick="clearAll()">🗑 Tout effacer</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
