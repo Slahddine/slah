@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gestionnaire de Notes</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>📚 Gestionnaire de Notes</h1>
+      <p class="subtitle">Gérez les notes de vos étudiants facilement</p>
+    </header>
+
+    <section class="form-section">
+      <h2>Ajouter un étudiant</h2>
+      <form id="studentForm">
+        <div class="form-group">
+          <label for="studentName">Nom de l'étudiant</label>
+          <input type="text" id="studentName" placeholder="Ex: Ahmed Ben Ali" required />
+        </div>
+        <div class="form-group">
+          <label for="math">Mathématiques</label>
+          <input type="number" id="math" min="0" max="20" step="0.5" placeholder="Note /20" required />
+        </div>
+        <div class="form-group">
+          <label for="physics">Physique</label>
+          <input type="number" id="physics" min="0" max="20" step="0.5" placeholder="Note /20" required />
+        </div>
+        <div class="form-group">
+          <label for="french">Français</label>
+          <input type="number" id="french" min="0" max="20" step="0.5" placeholder="Note /20" required />
+        </div>
+        <div class="form-group">
+          <label for="science">Sciences</label>
+          <input type="number" id="science" min="0" max="20" step="0.5" placeholder="Note /20" required />
+        </div>
+        <button type="submit" class="btn btn-primary">➕ Ajouter</button>
+      </form>
+    </section>
+
+    <section class="stats-section" id="statsSection" style="display:none;">
+      <h2>Statistiques de la classe</h2>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span class="stat-value" id="statTotal">0</span>
+          <span class="stat-label">Étudiants</span>
+        </div>
+        <div class="stat-card success">
+          <span class="stat-value" id="statPassed">0</span>
+          <span class="stat-label">Admis</span>
+        </div>
+        <div class="stat-card danger">
+          <span class="stat-value" id="statFailed">0</span>
+          <span class="stat-label">Recalés</span>
+        </div>
+        <div class="stat-card info">
+          <span class="stat-value" id="statAvg">-</span>
+          <span class="stat-label">Moyenne classe</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="table-section">
+      <div class="table-header">
+        <h2>Liste des étudiants</h2>
+        <button class="btn btn-danger btn-sm" id="clearAllBtn" style="display:none;" onclick="clearAll()">🗑️ Tout supprimer</button>
+      </div>
+      <div class="table-wrapper">
+        <table id="studentsTable">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Nom</th>
+              <th>Maths</th>
+              <th>Physique</th>
+              <th>Français</th>
+              <th>Sciences</th>
+              <th>Moyenne</th>
+              <th>Résultat</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+            <tr id="emptyRow">
+              <td colspan="9" class="empty-message">Aucun étudiant ajouté. Commencez par remplir le formulaire ci-dessus.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
