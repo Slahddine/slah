@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une Matière{% endblock %}
+
+{% block body %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1><i class="bi bi-book-half text-success"></i> Ajouter une Matière</h1>
+    <a href="{{ path('app_matiere_index') }}" class="btn btn-secondary">
+        <i class="bi bi-arrow-left"></i> Retour à la liste
+    </a>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <i class="bi bi-book-fill"></i> Informations de la Matière
+            </div>
+            <div class="card-body">
+                {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+                <div class="row">
+                    <div class="col-md-8 mb-3">
+                        {{ form_label(form.nom) }}
+                        {{ form_widget(form.nom) }}
+                        {{ form_errors(form.nom) }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        {{ form_label(form.code) }}
+                        {{ form_widget(form.code) }}
+                        {{ form_errors(form.code) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        {{ form_label(form.coefficient) }}
+                        {{ form_widget(form.coefficient) }}
+                        {{ form_errors(form.coefficient) }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        {{ form_label(form.volumeHoraire) }}
+                        {{ form_widget(form.volumeHoraire) }}
+                        {{ form_errors(form.volumeHoraire) }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        {{ form_label(form.semestre) }}
+                        {{ form_widget(form.semestre) }}
+                        {{ form_errors(form.semestre) }}
+                    </div>
+                </div>
+                <div class="d-flex gap-2 justify-content-end">
+                    <a href="{{ path('app_matiere_index') }}" class="btn btn-secondary">
+                        <i class="bi bi-x-lg"></i> Annuler
+                    </a>
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-check-lg"></i> Enregistrer
+                    </button>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

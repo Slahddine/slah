@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Notes{% endblock %}
+
+{% block body %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1><i class="bi bi-clipboard-check-fill text-warning"></i> Notes</h1>
+    <a href="{{ path('app_note_new') }}" class="btn btn-warning">
+        <i class="bi bi-plus-lg"></i> Saisir une Note
+    </a>
+</div>
+
+{% if notes is empty %}
+    <div class="alert alert-info text-center">
+        <i class="bi bi-info-circle"></i> Aucune note enregistrée.
+        <a href="{{ path('app_note_new') }}" class="alert-link">Saisir la première note</a>.
+    </div>
+{% else %}
+    <div class="card">
+        <div class="card-body p-0">
+            <table class="table table-hover mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Étudiant</th>
+                        <th>Matière</th>
+                        <th>Semestre</th>
+                        <th>Type</th>
+                        <th>Date</th>
+                        <th>Note</th>
+                        <th>Mention</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for note in notes %}
+                        <tr>
+                            <td>
+                                <a href="{{ path('app_etudiant_show', {'id': note.etudiant.id}) }}">
+                                    {{ note.etudiant.nomComplet }}
+                                </a>
+                            </td>
+                            <td>{{ note.matiere.nom }}</td>
+                            <td><span class="badge bg-info">{{ note.matiere.semestre }}</span></td>
+                            <td>
+                                <span class="badge
+                                    {% if note.typeEvaluation == 'Examen' %}bg-danger
+                                    {% elseif note.typeEvaluation == 'CC' %}bg-primary
+                                    {% elseif note.typeEvaluation == 'TP' %}bg-success
+                                    {% else %}bg-warning text-dark{% endif %}">
+                                    {{ note.typeEvaluation }}
+                                </span>
+                            </td>
+                            <td>{{ note.dateEvaluation|date('d/m/Y') }}</td>
+                            <td>
+                                <strong class="{% if note.passante %}text-success{% else %}text-danger{% endif %}">
+                                    {{ note.valeur }}/20
+                                </strong>
+                            </td>
+                            <td>{{ note.mention }}</td>
+                            <td class="text-end">
+                                <a href="{{ path('app_note_show', {'id': note.id}) }}"
+                                   class="btn btn-sm btn-outline-info" title="Voir">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <a href="{{ path('app_note_edit', {'id': note.id}) }}"
+                                   class="btn btn-sm btn-outline-warning" title="Modifier">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <form method="post" action="{{ path('app_note_delete', {'id': note.id}) }}"
+                                      style="display:inline"
+                                      onsubmit="return confirm('Confirmer la suppression de cette note ?');">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ note.id) }}">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" title="Supprimer">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <p class="text-muted mt-2">Total : {{ notes|length }} note(s)</p>
+{% endif %}
+{% endblock %}
