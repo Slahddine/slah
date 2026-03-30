@@ -1,0 +1,100 @@
+<?php
+
+namespace App\Controller;
+
+use App\Entity\Etudiant;
+use App\Form\EtudiantType;
+use App\Repository\EtudiantRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+
+#[Route('/etudiant')]
+class EtudiantController extends AbstractController
+{
+    #[Route('/', name: 'app_etudiant_index', methods: ['GET'])]
+    public function index(Request $request, EtudiantRepository $etudiantRepository): Response
+    {
+        $terme = $request->query->get('recherche');
+        $niveau = $request->query->get('niveau');
+
+        if ($terme) {
+            $etudiants = $etudiantRepository->findByNomOuPrenom($terme);
+        } elseif ($niveau) {
+            $etudiants = $etudiantRepository->findByNiveau($niveau);
+        } else {
+            $etudiants = $etudiantRepository->findBy([], ['nom' => 'ASC']);
+        }
+
+        return $this->render('etudiant/index.html.twig', [
+            'etudiants' => $etudiants,
+            'terme' => $terme,
+            'niveau' => $niveau,
+        ]);
+    }
+
+    #[Route('/nouveau', name: 'app_etudiant_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $etudiant = new Etudiant();
+        $form = $this->createForm(EtudiantType::class, $etudiant);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($etudiant);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'L\'étudiant a été ajouté avec succès.');
+
+            return $this->redirectToRoute('app_etudiant_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('etudiant/new.html.twig', [
+            'etudiant' => $etudiant,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/{id}', name: 'app_etudiant_show', methods: ['GET'])]
+    public function show(Etudiant $etudiant): Response
+    {
+        return $this->render('etudiant/show.html.twig', [
+            'etudiant' => $etudiant,
+        ]);
+    }
+
+    #[Route('/{id}/modifier', name: 'app_etudiant_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Etudiant $etudiant, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(EtudiantType::class, $etudiant);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            $this->addFlash('success', 'L\'étudiant a été modifié avec succès.');
+
+            return $this->redirectToRoute('app_etudiant_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('etudiant/edit.html.twig', [
+            'etudiant' => $etudiant,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/{id}', name: 'app_etudiant_delete', methods: ['POST'])]
+    public function delete(Request $request, Etudiant $etudiant, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $etudiant->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($etudiant);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'L\'étudiant a été supprimé avec succès.');
+        }
+
+        return $this->redirectToRoute('app_etudiant_index', [], Response::HTTP_SEE_OTHER);
+    }
+}

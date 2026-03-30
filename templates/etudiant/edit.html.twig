@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier {{ etudiant.nomComplet }}{% endblock %}
+
+{% block body %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1><i class="bi bi-pencil-fill text-warning"></i> Modifier l'Étudiant</h1>
+    <div>
+        <a href="{{ path('app_etudiant_show', {'id': etudiant.id}) }}" class="btn btn-info">
+            <i class="bi bi-eye"></i> Voir la fiche
+        </a>
+        <a href="{{ path('app_etudiant_index') }}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Retour
+        </a>
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-warning">
+                <i class="bi bi-person-fill"></i> Modifier : <strong>{{ etudiant.nomComplet }}</strong>
+                <span class="badge bg-dark ms-2">{{ etudiant.numeroEtudiant }}</span>
+            </div>
+            <div class="card-body">
+                {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        {{ form_label(form.nom) }}
+                        {{ form_widget(form.nom) }}
+                        {{ form_errors(form.nom) }}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        {{ form_label(form.prenom) }}
+                        {{ form_widget(form.prenom) }}
+                        {{ form_errors(form.prenom) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        {{ form_label(form.numeroEtudiant) }}
+                        {{ form_widget(form.numeroEtudiant) }}
+                        {{ form_errors(form.numeroEtudiant) }}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        {{ form_label(form.email) }}
+                        {{ form_widget(form.email) }}
+                        {{ form_errors(form.email) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        {{ form_label(form.dateNaissance) }}
+                        {{ form_widget(form.dateNaissance) }}
+                        {{ form_errors(form.dateNaissance) }}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        {{ form_label(form.niveau) }}
+                        {{ form_widget(form.niveau) }}
+                        {{ form_errors(form.niveau) }}
+                    </div>
+                </div>
+                <div class="d-flex gap-2 justify-content-end">
+                    <a href="{{ path('app_etudiant_index') }}" class="btn btn-secondary">
+                        <i class="bi bi-x-lg"></i> Annuler
+                    </a>
+                    <button type="submit" class="btn btn-warning">
+                        <i class="bi bi-check-lg"></i> Mettre à Jour
+                    </button>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

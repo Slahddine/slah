@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil - Gestion des Étudiants{% endblock %}
+
+{% block body %}
+<div class="row mt-4">
+    <div class="col-12 text-center mb-5">
+        <h1 class="display-4"><i class="bi bi-mortarboard-fill text-primary"></i></h1>
+        <h2 class="display-5 fw-bold">Gestion des Étudiants</h2>
+        <p class="lead text-muted">Système de gestion des étudiants, matières et notes</p>
+        <hr class="my-4">
+    </div>
+</div>
+
+<div class="row g-4 justify-content-center">
+    <div class="col-md-4">
+        <div class="card text-center h-100 border-primary">
+            <div class="card-body">
+                <i class="bi bi-people-fill display-4 text-primary mb-3"></i>
+                <h5 class="card-title">Étudiants</h5>
+                <p class="card-text text-muted">Gérer les étudiants : ajouter, modifier, consulter et supprimer.</p>
+                <a href="{{ path('app_etudiant_index') }}" class="btn btn-primary">
+                    <i class="bi bi-arrow-right"></i> Gérer les Étudiants
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center h-100 border-success">
+            <div class="card-body">
+                <i class="bi bi-book-fill display-4 text-success mb-3"></i>
+                <h5 class="card-title">Matières</h5>
+                <p class="card-text text-muted">Gérer les matières : coefficients, volume horaire et semestres.</p>
+                <a href="{{ path('app_matiere_index') }}" class="btn btn-success">
+                    <i class="bi bi-arrow-right"></i> Gérer les Matières
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center h-100 border-warning">
+            <div class="card-body">
+                <i class="bi bi-clipboard-check-fill display-4 text-warning mb-3"></i>
+                <h5 class="card-title">Notes</h5>
+                <p class="card-text text-muted">Saisir et consulter les notes des étudiants par matière.</p>
+                <a href="{{ path('app_note_index') }}" class="btn btn-warning">
+                    <i class="bi bi-arrow-right"></i> Gérer les Notes
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

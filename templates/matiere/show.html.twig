@@ -1,0 +1,116 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ matiere.nom }}{% endblock %}
+
+{% block body %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1><i class="bi bi-book-fill text-success"></i> {{ matiere.nom }}</h1>
+    <div>
+        <a href="{{ path('app_matiere_edit', {'id': matiere.id}) }}" class="btn btn-warning">
+            <i class="bi bi-pencil"></i> Modifier
+        </a>
+        <a href="{{ path('app_matiere_index') }}" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Retour
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-header bg-success text-white">
+                <i class="bi bi-info-circle"></i> Détails de la Matière
+            </div>
+            <div class="card-body">
+                <table class="table table-borderless mb-0">
+                    <tr>
+                        <th class="text-muted">Code</th>
+                        <td><code>{{ matiere.code }}</code></td>
+                    </tr>
+                    <tr>
+                        <th class="text-muted">Nom</th>
+                        <td>{{ matiere.nom }}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-muted">Semestre</th>
+                        <td><span class="badge bg-info">{{ matiere.semestre }}</span></td>
+                    </tr>
+                    <tr>
+                        <th class="text-muted">Coefficient</th>
+                        <td>{{ matiere.coefficient }}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-muted">Volume Horaire</th>
+                        <td>{{ matiere.volumeHoraire }} heures</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        {% if matiere.notes is not empty %}
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <i class="bi bi-graph-up"></i> Statistiques
+            </div>
+            <div class="card-body text-center">
+                <div class="display-5 fw-bold text-info">
+                    {{ matiere.moyenne }}/20
+                </div>
+                <p class="text-muted">Moyenne de la matière</p>
+                <hr>
+                <p class="mb-0"><strong>{{ matiere.notes|length }}</strong> note(s)</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-warning">
+                <div class="d-flex justify-content-between align-items-center">
+                    <span><i class="bi bi-list-check"></i> Notes des Étudiants</span>
+                    <a href="{{ path('app_note_new') }}" class="btn btn-sm btn-dark">
+                        <i class="bi bi-plus"></i> Saisir une Note
+                    </a>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                {% if matiere.notes is empty %}
+                    <p class="text-center text-muted p-4">Aucune note pour cette matière.</p>
+                {% else %}
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Étudiant</th>
+                                <th>Type</th>
+                                <th>Date</th>
+                                <th>Note</th>
+                                <th>Mention</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for note in matiere.notes %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ path('app_etudiant_show', {'id': note.etudiant.id}) }}">
+                                            {{ note.etudiant.nomComplet }}
+                                        </a>
+                                    </td>
+                                    <td>{{ note.typeEvaluation }}</td>
+                                    <td>{{ note.dateEvaluation|date('d/m/Y') }}</td>
+                                    <td>
+                                        <strong class="{% if note.passante %}text-success{% else %}text-danger{% endif %}">
+                                            {{ note.valeur }}/20
+                                        </strong>
+                                    </td>
+                                    <td>{{ note.mention }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
